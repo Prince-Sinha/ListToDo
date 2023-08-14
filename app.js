@@ -3,6 +3,8 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import _ from "lodash";
 
+const PORT = process.env.PORT || 3000;
+
 const app = express();
 let items = ["Buy food", "Cook food", "Eat food"];
 
@@ -14,6 +16,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 mongoose.set("strictQuery", false);
+
+// connect to mongodb atlas server
 await mongoose.connect("mongodb+srv://Ankit2928:7R7BrCmNj1emIsQ9@cluster0.lhgahvp.mongodb.net/todolistDB");
 
 // create a items schema
@@ -48,7 +52,6 @@ const listSchema = new mongoose.Schema({
 const List = mongoose.model("List", listSchema);
 
 const defaultItems = [item1, item2, item3];
-// mongoose.connection.close();
 
 
 app.get("/", async (req, res)=>{
@@ -112,4 +115,4 @@ app.get("/:customListName", async (req, res) => {
 });
 
 
-// app.listen(3000, ()=>console.log("Server is running on port 3000..."));
+app.listen(PORT, ()=>console.log("Server is running on port 3000..."));
